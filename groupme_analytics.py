@@ -213,22 +213,22 @@ def display_data(user_id_mapped_to_user_data):
 
         print('Likes Received from each member and also what percent of the total likes received is from said member :')
         for key_inner in user_id_mapped_to_user_data[key][5]:
-            percent = (user_id_mapped_to_user_data[key][5][key_inner] / user_id_mapped_to_user_data[key][2]) * 100
-            percent = round(percent, 2)
-            sys.stdout.write(user_id_mapped_to_user_data[key_inner][0])  # Name of liker
-            sys.stdout.write(' : ' + str(user_id_mapped_to_user_data[key][5][key_inner]) + ', ') # number of likes to user
-            sys.stdout.write(str(percent) + '%, ')
+			try:
+				percent = (user_id_mapped_to_user_data[key][5][key_inner] / user_id_mapped_to_user_data[key][2]) * 100
+				percent = round(percent, 2)
+				sys.stdout.write(user_id_mapped_to_user_data[key_inner][0])  # Name of liker
+				sys.stdout.write(' : ' + str(user_id_mapped_to_user_data[key][5][key_inner]) + ', ') # number of likes to user
+				sys.stdout.write(str(percent) + '%, ')
+			except:
+				continue
         print
 
         print('Percent of each member\'s total likes that went to ' + str(user_id_mapped_to_user_data[key][0]) + ': ')
         for key_inner in user_id_mapped_to_user_data[key][5]:
-		try:
 			sys.stdout.write(user_id_mapped_to_user_data[key_inner][0])
 			convert_to_percent = (user_id_mapped_to_user_data[key][5][key_inner] / user_id_mapped_to_user_data[key_inner][7]) * 100
 			convert_to_percent = round(convert_to_percent, 2)
 			sys.stdout.write(': ' + str(convert_to_percent) + '%, ')
-		except:
-			continue
         print
 
         test = user_id_mapped_to_user_data[key][6]
