@@ -1,16 +1,17 @@
+#!/usr/bin/env python
 import requests
 import re
 import sys
 from pprint import pprint
 
-at = ""  # this is a global variable that stores the API token
+at = "68ea42109ec80134adf205b7f1deccdf"  # this is a global variable that stores the API token
 
 
 def menu():
     global at
     print('If you have not done so already, go to the following website to receive your API token: ' +
           'https://dev.groupme.com/. When signing up, it does not matter what you put for the callback URL')
-    at = str(raw_input("Enter your developer access token:"))
+    #at = str(raw_input("Enter your developer access token:"))
     print("Here are your ten most recent groups:")
     groups_data = print_all_groups_with_number_beside_each()
     try:
@@ -22,16 +23,17 @@ def menu():
 
 
 def print_all_groups_with_number_beside_each():
-    response = requests.get('https://api.groupme.com/v3/groups/?token='+at)
-    data = response.json()
+	response = requests.get('https://api.groupme.com/v3/groups?token='+at)
+	print(response)
+	data = response.json()
 
-    if len(data['response']) == 0:
-        print("You are not part of any groups.")
-        return
-    for i in range(len(data['response'])):
-        group = data['response'][i]['name']
-        print(str(i)+"\'"+group+"\'")
-    return data
+	if len(data['response']) == 0:
+		print("You are not part of any groups.")
+		return
+	for i in range(len(data['response'])):
+		group = data['response'][i]['name']
+		print(str(i)+"\'"+group+"\'")
+	return data
 
 
 def get_group_id(groups_data, group_number):
@@ -220,11 +222,14 @@ def display_data(user_id_mapped_to_user_data):
 
         print('Percent of each member\'s total likes that went to ' + str(user_id_mapped_to_user_data[key][0]) + ': ')
         for key_inner in user_id_mapped_to_user_data[key][5]:
-            sys.stdout.write(user_id_mapped_to_user_data[key_inner][0])
-            convert_to_percent = (user_id_mapped_to_user_data[key][5][key_inner] /
-                                  user_id_mapped_to_user_data[key_inner][7]) * 100
-            convert_to_percent = round(convert_to_percent, 2)
-            sys.stdout.write(': ' + str(convert_to_percent) + '%, ')
+            try:
+				sys.stdout.write(user_id_mapped_to_user_data[key_inner][0])
+				convert_to_percent = (user_id_mapped_to_user_data[key][5][key_inner] /
+									user_id_mapped_to_user_data[key_inner][7]) * 100
+				convert_to_percent = round(convert_to_percent, 2)
+				sys.stdout.write(': ' + str(convert_to_percent) + '%, ')
+			except:
+				continue
         print
 
         test = user_id_mapped_to_user_data[key][6]
