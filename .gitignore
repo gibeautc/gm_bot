@@ -1,3 +1,6 @@
+#data file that contains login info
+data_file
+
 #pycharm file
 *.idea
 

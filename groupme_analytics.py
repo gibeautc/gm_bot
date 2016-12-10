@@ -4,14 +4,24 @@ import re
 import sys
 from pprint import pprint
 
-at = "68ea42109ec80134adf205b7f1deccdf"  # this is a global variable that stores the API token
-
-
+#there needs to be a file in same directory that contains a line such as
+#at="xxxxxxxx" where xxxxxxx is the API token from group me
+at=""
+log_cred=open('data_file','r')
+log_cred_text=log_cred.read()
+print(log_cred_text)
+lines=log_cred_text.split('\n')
+print(lines)
+for line in lines:
+	if line.startswith('#'):
+		continue	
+	print(line)
+	if line.startswith('at'):
+		code=line.split('"')
+		at=code[1]
+		print("API Token loaded: "+at)
 def menu():
     global at
-    print('If you have not done so already, go to the following website to receive your API token: ' +
-          'https://dev.groupme.com/. When signing up, it does not matter what you put for the callback URL')
-    #at = str(raw_input("Enter your developer access token:"))
     print("Here are your ten most recent groups:")
     groups_data = print_all_groups_with_number_beside_each()
     try:
@@ -220,28 +230,37 @@ def display_data(user_id_mapped_to_user_data):
 				sys.stdout.write(' : ' + str(user_id_mapped_to_user_data[key][5][key_inner]) + ', ') # number of likes to user
 				sys.stdout.write(str(percent) + '%, ')
 			except:
+				print("Error... CONTINUE 0")
 				continue
-        print
+		print
 
-        print('Percent of each member\'s total likes that went to ' + str(user_id_mapped_to_user_data[key][0]) + ': ')
-        for key_inner in user_id_mapped_to_user_data[key][5]:
-			sys.stdout.write(user_id_mapped_to_user_data[key_inner][0])
-			convert_to_percent = (user_id_mapped_to_user_data[key][5][key_inner] / user_id_mapped_to_user_data[key_inner][7]) * 100
-			convert_to_percent = round(convert_to_percent, 2)
-			sys.stdout.write(': ' + str(convert_to_percent) + '%, ')
-        print
+		print('Percent of each member\'s total likes that went to ' + str(user_id_mapped_to_user_data[key][0]) + ': ')
+		for key_inner in user_id_mapped_to_user_data[key][5]:
+			try:
+				sys.stdout.write(user_id_mapped_to_user_data[key_inner][0])
+				convert_to_percent = (user_id_mapped_to_user_data[key][5][key_inner] / user_id_mapped_to_user_data[key_inner][7]) * 100
+				convert_to_percent = round(convert_to_percent, 2)
+				sys.stdout.write(': ' + str(convert_to_percent) + '%, ')
+			except:
+				print("Error...CONTINUE1")
+				continue
+		print
 
-        test = user_id_mapped_to_user_data[key][6]
-        print('Number of times you liked the same post as another member and what percent of the posts you '
+		test = user_id_mapped_to_user_data[key][6]
+		print('Number of times you liked the same post as another member and what percent of the posts you '
               'liked were liked by that same member: ')
-        for key_inner in user_id_mapped_to_user_data[key][6]:
-            percent_shared = (user_id_mapped_to_user_data[key][6][key_inner]/user_id_mapped_to_user_data[key][7])*100
-            percent_shared = round(percent_shared, 2)
-            sys.stdout.write(user_id_mapped_to_user_data[key_inner][0])
-            sys.stdout.write(': ' + str(user_id_mapped_to_user_data[key][6][key_inner]) + ', ')
-            sys.stdout.write(str(percent_shared)+'%, ')
-        print
-        print
+		for key_inner in user_id_mapped_to_user_data[key][6]:
+            try:
+				percent_shared = (user_id_mapped_to_user_data[key][6][key_inner]/user_id_mapped_to_user_data[key][7])*100
+				percent_shared = round(percent_shared, 2)
+				sys.stdout.write(user_id_mapped_to_user_data[key_inner][0])
+				sys.stdout.write(': ' + str(user_id_mapped_to_user_data[key][6][key_inner]) + ', ')
+				sys.stdout.write(str(percent_shared)+'%, ')
+			except:
+				print("Error....CONTINUE 2")
+				continue
+		print
+		print
     #uncomment this line below to view the raw dictionary
     #pprint(user_id_mapped_to_user_data)
 
