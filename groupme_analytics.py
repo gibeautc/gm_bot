@@ -6,7 +6,7 @@ from pprint import pprint
 
 #there needs to be a file in same directory that contains a line such as
 #at="xxxxxxxx" where xxxxxxx is the API token from group me
-at=""
+at="68ea42109ec80134adf205b7f1deccdf"
 log_cred=open('data_file','r')
 log_cred_text=log_cred.read()
 print(log_cred_text)
